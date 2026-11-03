@@ -1,0 +1,44 @@
+# Base model (110M params). This is the config you would take to a cluster.
+# batch_size is per-device; start small and use gradient accumulation later.
+model:
+  n_channels: 34
+  window_minutes: 1440
+  patch_time: 20
+  d_model: 768
+  enc_layers: 12
+  enc_heads: 12
+  mlp_ratio: 4.0
+  d_dec: 512
+  dec_layers: 8
+  dec_heads: 16
+  dropout: 0.0
+
+data:
+  n_subjects: 50000
+  days_per_subject: 10
+  window_minutes: 1440
+  seed: 0
+  missing_mcar_rate: 0.02
+  missing_block_prob: 0.3
+  missing_block_hours: [1.0, 4.0]
+  missing_modality_prob: 0.2
+
+aim:
+  random_ratio: 0.8
+  temporal_ratio: 0.5
+  modality_ratio: 0.5
+  mode_probs: [0.3333, 0.3333, 0.3334]
+
+train:
+  batch_size: 2
+  lr: 0.0005
+  weight_decay: 0.0001
+  max_steps: 100000
+  warmup_pct: 0.05
+  grad_clip: 1.0
+  amp: true
+  log_every: 20
+  num_workers: 8
+  device: cuda
+  out_dir: runs/synthetic_b
+  seed: 0
